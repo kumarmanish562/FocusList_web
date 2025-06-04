@@ -1,14 +1,18 @@
+
+
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { signInSchema } from '@/lib/schema'
 import { z } from 'zod'
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '@/components/ui/card'
-import { Form } from 'react-router'
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Form } from '@/components/ui/form'
+
 // Update the import path below to the correct relative path if '@/components/ui/form' does not exist.
 // For example, if your form components are in 'components/ui/form.tsx', use:
-import { FormField, FormItem, FormLabel, FormControl } from '@/components/ui/form'
+import { FormField, FormItem, FormLabel, FormControl, FormMessage } from '@/components/ui/form'
 import { Input } from '@/components/ui/input'
+import { Link } from 'react-router'
 
 type SigninFormData = z.infer<typeof signInSchema>
 const SignIn = () => {
@@ -23,32 +27,71 @@ const SignIn = () => {
     console.log('Form submitted:', data);
   };
   return (
-    <div className='min-h-screen flex flex-col items-center justify-center bg-mutes/40 p-4'>
-      <Card  className='w-full max-w-md shadow-xl'>
-        <CardHeader>
-          <CardTitle>Welcome Back</CardTitle>
-          <CardDescription>Sign in to your account to continue</CardDescription>
+    <div className='min-h-screen w-full flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 p-4'>
+      <Card className='w-full max-w-sm shadow-2xl border-0 bg-white/95 backdrop-blur-sm transform hover:scale-105 transition-all duration-300 ease-in-out animate-fade-in'>
+        <CardHeader className='space-y-2 text-center pb-4'>
+          <CardTitle className='text-xl font-bold text-gray-900 animate-slide-down'>Welcome Back</CardTitle>
+          <CardDescription className='text-sm text-gray-600 animate-slide-down animation-delay-100'>Sign in to your account to continue</CardDescription>
         </CardHeader>
-        <CardContent>
-          <Form {...form} onSubmit={form.handleSubmit(handleOnSubmit)} >
-              <FormField name="email" control={form.control} render={({ field }) => (
-               <FormItem>
-                <FormLabel>Email</FormLabel>
-               <FormControl>
-                <Input {...field} type="email" placeholder="Email" />
-               </FormControl>
-               </FormItem>
-              )} />
-              <FormField name="password" control={form.control} render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Password</FormLabel>
-                  <FormControl>
-                    <Input {...field} type="password" placeholder="Password" />
-                  </FormControl>
-                </FormItem>
-              )} />
-            </Form>
+        <CardContent className='space-y-3 px-6 pb-6'>
+          <Form {...form}>
+            <form onSubmit={form.handleSubmit(handleOnSubmit)} className='space-y-3'>
+              <FormField 
+                name="email" 
+                control={form.control} 
+                render={({ field }) => (
+                  <FormItem className='space-y-1 animate-slide-up animation-delay-200'>
+                    <FormLabel className='text-xs font-medium text-gray-700'>Email</FormLabel>
+                    <FormControl>
+                      <Input 
+                        {...field} 
+                        type="email" 
+                        placeholder="Enter your email"
+                        className='h-9 px-3 text-sm border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 hover:border-blue-400 focus:scale-105'
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} 
+              />
+              <FormField 
+                name="password" 
+                control={form.control} 
+                render={({ field }) => (
+                  <FormItem className='space-y-1 animate-slide-up animation-delay-300'>
+                  <div className='flex items-center justify-between'>
+                    <FormLabel> Password</FormLabel>
+                    <Link to="/reset-password" className='text-xs text-blue-600 hover:underline'>Forget Password</Link>
 
+                  </div>
+                    <FormControl>
+                      <Input 
+                        {...field} 
+                        type="password" 
+                        placeholder="Enter your password"
+                        className='h-9 px-3 text-sm border-gray-300 rounded-lg focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all duration-300 hover:border-blue-400 focus:scale-105'
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} 
+              />
+              <button 
+                type="submit"
+                className='w-full h-9 bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white text-sm font-medium rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 mt-4 transform hover:scale-105 active:scale-95 animate-slide-up animation-delay-400'
+              >
+                Sign In
+              </button>
+
+            </form>
+          </Form>
+          <CardFooter> 
+            <div className='text-xs text-gray-500 text-center mt-2'>
+              <p className='animate-fade-in animation-delay-500'>
+                Don't have an account? <Link to="/sign-up" className='text-blue-600 hover:underline'>Sign Up</Link>
+              </p>
+            </div>
+          </CardFooter>
         </CardContent>
       </Card>
     </div>
